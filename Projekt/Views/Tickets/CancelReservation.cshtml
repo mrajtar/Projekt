@@ -1,0 +1,87 @@
+﻿@using Projekt.Models.Classes
+@using Projekt.Models.DTO
+
+@model TicketsPucharseDto
+@{
+
+}
+
+<head>
+    <title>Reservation Form</title>
+
+</head>
+<body>
+    <div class="cancel-reservation-container">
+        <form method="post" action="@Url.Action("CancelReservationAction", "Tickets")">
+            <label for="userEmail">Email:</label>
+            <input type="email" id="userEmail" name="userEmail" required />
+
+            <label for="reservationId">Reservation ID:</label>
+            <input type="text" id="reservationId" name="reservationId" required />
+
+            <button type="submit" class="submit">Cancel Reservation</button>
+            <button type="reset" class="clear">Clear Form</button>
+        </form>
+        @if (TempData["msg"] != null)
+        {
+            <div class="msg">@TempData["msg"]</div>
+        }
+    </div>
+</body>
+
+<style>
+    body {
+        background-color: #242333;
+        color: white;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+    }
+
+    .cancel-reservation-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    input[type="email"],
+    input[type="text"] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        font-size: 16px;
+    }
+
+    button {
+        background-color: #4caf50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .cancel {
+        background-color: #f44336;
+    }
+
+    .clear {
+        background-color: #ccc;
+    }
+</style>

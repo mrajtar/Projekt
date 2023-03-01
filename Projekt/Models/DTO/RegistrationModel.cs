@@ -5,10 +5,9 @@ namespace Projekt.Models.DTO
     public class RegistrationModel
     {
         [Required]
-        public string Name{ get; set; }
-        [Required]
         [EmailAddress]
         public string Email { get; set; }
+        [Required]
         public string UserName { get; set; }
         [Required]
         [RegularExpression("(?=.*?[a-z])(?=.*?[0-9]).{4,}$", ErrorMessage = "Minimum length is 4 letters and must contain 1 digit")]

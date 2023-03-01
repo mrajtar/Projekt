@@ -1,0 +1,55 @@
+﻿@using Projekt.Models.Classes
+@using Projekt.Models.DTO
+@model TicketsPucharseDto
+@{
+
+}
+<div class="ticket-info-container">
+    <div class="ticket-info">
+        <h2>Ticket Information</h2>
+        <p>Seats Selected:
+        @foreach (ScreenTimeSeats screenTimeSeat in @Model.SelectedSeats)
+        {
+            <span>@screenTimeSeat.Seat.SeatName</span>
+        }
+        </p>
+        <p>Movie Title: @Model.MovieTitle<span id="movie-title"></span></p>
+        <p>User Email: @Model.UserEmail<span id="user-email"></span></p>
+        <p>Screening Date and Time: @Model.ScreenDateTime<span id="screen-datetime"></span></p>
+        <p>Reservation ID: @Model.ReservationId<span id="reservation-id"></span></p>
+    </div>
+</div>
+
+<style>
+    .ticket-info-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .ticket-info {
+        max-width: 500px;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+        .ticket-info h2 {
+            margin-bottom: 10px;
+        }
+
+        .ticket-info p {
+            margin-bottom: 5px;
+        }
+
+        .ticket-info span {
+            font-weight: bold;
+        }
+</style>

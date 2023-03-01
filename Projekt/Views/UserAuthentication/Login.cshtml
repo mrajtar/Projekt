@@ -1,35 +1,105 @@
 ﻿@model Projekt.Models.DTO.LoginModel
 @{
 }
-<form class="w-40" asp-action="Login" method="post">
-    <h2 class="pb-10">Login</h2>
-    <div class="input-container">
-        <label asp-for="Username" class="w-40">Username</label>
-        <input type="text" class="input" asp-for="Username">
-    </div>
-    <div class="message-box pd-x-28 error">
-       <span asp-validation-for="Username"></span>
-    </div>
+
+<div>
+    <form asp-action="Login" method="post">
+
+        <div class="login-container" id="login-popup">
+            <label asp-for="Username"><b>Username</b></label>
+            <input type="text" asp-for="Username" placeholder="Enter Username">
+            <div class="msg">
+                <span class="err" asp-validation-for="Username"></span>
+            </div>
 
 
-    <div class="input-container">
-        <label asp-for="Password" class="w-40">Password</label>
-        <input type="password" class="input" asp-for="Password">
-    </div>
-    <div class="message-box pd-x-28 error">
-        <span asp-validation-for="Password"></span>
-    </div>
-  
 
-    @if (TempData["msg"] != null)
-    {
-        <div class="alert mb-1">
-            @TempData["msg"]
-    </div>
+            <label asp-for="Password"><b>Password</b></label>
+            <input type="password" asp-for="Password" placeholder="Enter Password">
+            <div class="msg">
+                <span asp-validation-for="Password" class="err"></span>
+            </div>
+
+
+            @if (TempData["msg"] != null)
+            {
+                <div class="msg">@TempData["msg"]</div>
+            }
+
+            <button type="submit">Login</button>
+        </div>
+    </form>
+</div>
+
+
+
+
+<style>
+    body {
+        background-color: #242333;
+        font-family: Arial, Helvetica, sans-serif;
     }
 
-    <div class="input-container">
-        <button class="btn btn-default" type="submit">Login</button>
-        @*<a class="btn btn-sec" href="#">Add more</a>*@
-    </div>
-</form>
+    .login-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        border-radius: 5px;
+        padding: 30px;
+        width: 300px;
+        margin: 0 auto;
+        box-shadow: 0px 0px 5px #aaa;
+    }
+
+
+
+        .login-container label {
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            box-shadow: 0px 0px 3px #ccc;
+        }
+
+        .login-container input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+            .login-container input[type="submit"]:hover {
+                background-color: #45a049;
+            }
+
+        .login-container button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+            .login-container button[type="submit"]:hover {
+                background-color: #45a049;
+            }
+
+    .msg {
+        color: red;
+        margin-top: 5px;
+    }
+</style>

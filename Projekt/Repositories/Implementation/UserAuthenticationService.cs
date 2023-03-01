@@ -85,7 +85,6 @@ namespace Projekt.Repositories.Implementation
             ApplicationUser user = new ApplicationUser
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
-                Name = model.Name,
                 Email = model.Email,
                 UserName = model.UserName,
                 EmailConfirmed = true,

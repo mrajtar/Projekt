@@ -1,4 +1,38 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<MovieDetails>
+@{
+    Layout = "_Layout";
 }
+
+<div class="row">
+    
+        
+        
+    
+        <div class="right">
+            <div class="In-our-cinemas">
+            <h1 class="display-4 text-light">In our cinemas</h1>
+            </div>
+            @foreach (var item in Model)
+            {
+            <div class="heading">
+                
+                <div class="head-content">
+                <h2>@item.Title</h2>
+                <div class="img-container">
+                
+                </div>
+                <div class="rating">
+                    <div class="btn"><span class="material-icons">movie_filter</span><span>@item.ReleaseYear</span></div>
+                </div>
+                
+
+                <p class="display-movie-text">@item.Description</p>
+                <a class="btn btn-main" href="@Url.Action("Index", "MovieDetails", new{ movieId = item.Id})">Buy tickets</a>
+                
+                </div>
+                
+            </div>
+            }
+        </div>
+</div>
 

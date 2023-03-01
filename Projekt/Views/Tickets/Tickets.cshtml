@@ -1,0 +1,185 @@
+﻿@using Projekt.Models.Classes
+@using Projekt.Models.DTO
+@model CinemaBookMovieDto
+
+@{
+    bool isAdmin = User.IsInRole("Admin");
+}
+<body>
+    <div class="select-seats"><h2>Select Seats</h2></div>
+    <div class="cinema-plan">
+        <h1>@Model.Cinema.CinemaName</h1>
+        <h1>@Model.Movie.Title</h1>
+        <h1>@Model.ScreenTime.ScreenDateTime</h1>
+        <div class="screen"></div>
+        <div>
+            <form  class="cinema-plan-form-container" method="post" action="@Url.Action("BuyTickets", "Tickets")">
+                @{
+                    int rowNumber = @Model.Cinema.RowNumber;
+                    int rowSeatNumber = @Model.Cinema.RowSeatNumber;
+                    int seatWidth = 400 / rowSeatNumber;
+                    int seatHeight = 500 / rowNumber;
+                    object seatWidthStyle = $"{seatWidth}px";
+                    object seatHeightStyle = $"{seatHeight}px";
+                }
+                <div class="cinema-seats">
+                    @foreach (ScreenTimeSeats screenTimeSeat in Model.ScreenTimeSeats)
+                    {
+                        if (screenTimeSeat.IsReserved)
+                        {
+                            <span style="width:@seatWidthStyle; height:@seatHeightStyle; margin:5px">
+                                @screenTimeSeat.Seat.SeatName
+                            </span>
+                        }
+                        else
+                        {
+                            <label 
+                            style="width:@seatWidthStyle; height:@seatHeightStyle; margin:5px"
+                            class="seat-label">
+                                <input type="checkbox" name="selectedSeats" value="@screenTimeSeat.Seat.SeatId" />
+                                @screenTimeSeat.Seat.SeatName
+                                @if (isAdmin)
+                                {
+                                    <label class="reserve-label">
+                                        <span class="reserve-seat" data-seat-id="@screenTimeSeat.Seat.SeatId">Reserve</span>
+                                    </label>
+                                }
+                            </label>
+                        }
+                    }
+                </div>
+                <div>
+                    <div class="input-email-container">
+                        <input type="email" name="userEmail" />
+                    </div>
+                    <input style="display:none" type="text" name="movieName" value="@Model.Movie.Title" />
+                    <input style="display:none" type="text" name="screenDateTime" value="@Model.ScreenTime.ScreenDateTime" />
+
+                    <div class="button-buy-container">
+                        <input type="submit" value="Buy" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<style>
+    body {
+        background-color: #242333;
+    }
+
+    .select-seats {
+        text-align: center;
+    }
+
+    .cinema-plan {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cinema-plan-form-container {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+    }
+
+    .cinema-seats {
+        width: 450px;
+        height: 600px;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .cinema-seats h1:first-of-type {
+            margin-top: 0;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .cinema-seats h1:last-of-type {
+            margin-bottom: 0;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+    table {
+        margin-top: 2rem;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    td {
+        padding: 0.5rem;
+        border: 1px solid black;
+    }
+
+    span {
+        display: block;
+        background-color: grey;
+        color: white;
+        font-size: 1.2rem;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+    }
+
+    label {
+        display: block;
+        background-color: lightblue;
+        font-size: 1.2rem;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+    }
+
+    input[type="submit"] {
+        display: block;
+        margin-top: 2rem;
+        background-color: green;
+        color: white;
+        font-size: 1.2rem;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
+    }
+
+    .reserve-seat {
+        display: inline-block;
+        margin-left: 10px;
+        padding: 5px 10px;
+        background-color: #ff0000;
+        color: #fff;
+        cursor: pointer;
+    }
+
+        .reserve-seat:hover {
+            background-color: #990000;
+        }
+
+    .right-panel {
+        width: 82%;
+        margin: 0 auto;
+    }
+
+    .screen {
+        background-color: #fff;
+        height: 230px;
+        width: 300px;
+        margin: 15px 0;
+        transform: rotateX(-48deg);
+        box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        $(".reserve-seat").click(function() {
+            var seatId = $(this).data("seat-id");
+            var checkbox = $("input[type=checkbox][value=" + seatId + "]");
+            checkbox.prop("checked", true);
+            checkbox.parent().append("<span class='reserved'>Reserved</span>");
+            $(this).remove();
+        });
+</script>

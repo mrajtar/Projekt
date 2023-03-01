@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -38,8 +39,16 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapRazorPages();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=UserAuthentication}/{action=Login}/{id?}");
+    pattern: "{controller=Home}/{action=Index}");
+
+app.MapControllerRoute("MovieDetails", "{controller=MovieDetails}/{action=Index}/{movieId?}");
+app.MapControllerRoute("MovieTickets", "{controller=Tickets}/{action=SelectTickets}/{screenTimeId?}/{movieId?}");
+app.MapControllerRoute("BuyTickets", "{controller=Tickets}/{action=BuyTickets}/{selectedSeats?}/{userEmail?}/{movieName?}/{screenDateTime?}");
+app.MapControllerRoute("RegistrationForm", "{controller=UserAuthentication}/{action=RegisterForm}");
+app.MapControllerRoute("CancelReservation", "{controller=Tickets}/{action=CancelReservation}/{UserEmail?}/{ReservationId}");
 
 app.Run();

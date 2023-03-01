@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Projekt.Data;
 
@@ -11,9 +12,11 @@ using Projekt.Data;
 namespace Projekt.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230301165016_AddScreenTimeSeatsTable")]
+    partial class AddScreenTimeSeatsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,12 +235,6 @@ namespace Projekt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RowNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RowSeatNumber")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Cinema");
@@ -278,9 +275,6 @@ namespace Projekt.Migrations
                     b.Property<int>("ScreenTimeId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("ScreenTimeSeatTicketId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("SeatId")
                         .HasColumnType("int");
 
@@ -301,6 +295,9 @@ namespace Projekt.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SeatId"));
 
+                    b.Property<int?>("CinemaId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsReserved")
                         .HasColumnType("bit");
 
@@ -309,6 +306,8 @@ namespace Projekt.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SeatId");
+
+                    b.HasIndex("CinemaId");
 
                     b.ToTable("Seats");
                 });
@@ -423,6 +422,18 @@ namespace Projekt.Migrations
                     b.Navigation("ScreenTime");
 
                     b.Navigation("Seat");
+                });
+
+            modelBuilder.Entity("Projekt.Models.Classes.Seat", b =>
+                {
+                    b.HasOne("Projekt.Models.Classes.Cinema", null)
+                        .WithMany("Seats")
+                        .HasForeignKey("CinemaId");
+                });
+
+            modelBuilder.Entity("Projekt.Models.Classes.Cinema", b =>
+                {
+                    b.Navigation("Seats");
                 });
 #pragma warning restore 612, 618
         }
