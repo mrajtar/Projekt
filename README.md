@@ -4,9 +4,11 @@ Connection String with the database:
 "DefaultConnectionString": "Data Source="Server Name";Initial Catalog=cinema-app-db;Integrated Security=True;TrustServerCertificate=True"
 
 User credentials
+
 Regular user:
 user
 User1!
+
 Admin:
 admin
 Admin!
