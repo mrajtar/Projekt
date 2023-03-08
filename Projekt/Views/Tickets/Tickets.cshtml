@@ -12,8 +12,8 @@
         <h1>@Model.Movie.Title</h1>
         <h1>@Model.ScreenTime.ScreenDateTime</h1>
         <div class="screen"></div>
-        <div>
-            <form  class="cinema-plan-form-container" method="post" action="@Url.Action("BuyTickets", "Tickets")">
+        <div class="seats-forms-container">
+            <form class="cinema-plan-form-container" method="post" action="@Url.Action("BuyTickets", "Tickets")">
                 @{
                     int rowNumber = @Model.Cinema.RowNumber;
                     int rowSeatNumber = @Model.Cinema.RowSeatNumber;
@@ -33,24 +33,17 @@
                         }
                         else
                         {
-                            <label 
-                            style="width:@seatWidthStyle; height:@seatHeightStyle; margin:5px"
-                            class="seat-label">
+                            <label style="width:@seatWidthStyle; height:@seatHeightStyle; margin:5px"
+                           class="seat-label">
                                 <input type="checkbox" name="selectedSeats" value="@screenTimeSeat.Seat.SeatId" />
                                 @screenTimeSeat.Seat.SeatName
-                                @if (isAdmin)
-                                {
-                                    <label class="reserve-label">
-                                        <span class="reserve-seat" data-seat-id="@screenTimeSeat.Seat.SeatId">Reserve</span>
-                                    </label>
-                                }
                             </label>
                         }
                     }
                 </div>
-                <div>
+                <div class="buttons">
                     <div class="input-email-container">
-                        <input type="email" name="userEmail" />
+                        Email: <input type="email" name="userEmail"/>
                     </div>
                     <input style="display:none" type="text" name="movieName" value="@Model.Movie.Title" />
                     <input style="display:none" type="text" name="screenDateTime" value="@Model.ScreenTime.ScreenDateTime" />
@@ -66,6 +59,7 @@
 <style>
     body {
         background-color: #242333;
+        color: white;
     }
 
     .select-seats {
@@ -80,8 +74,9 @@
 
     .cinema-plan-form-container {
         display: flex;
-        flex-direction: row;
-        align-items: baseline;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
     }
 
     .cinema-seats {
@@ -92,6 +87,7 @@
         padding: 10px;
         justify-content: center;
         align-items: center;
+        margin-bottom: 20px;
     }
 
         .cinema-seats h1:first-of-type {
@@ -172,14 +168,16 @@
         transform: rotateX(-48deg);
         box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
     }
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 1rem;
+    }
+
+    .input-email-container {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
 </style>
-<script>
-    $(document).ready(function() {
-        $(".reserve-seat").click(function() {
-            var seatId = $(this).data("seat-id");
-            var checkbox = $("input[type=checkbox][value=" + seatId + "]");
-            checkbox.prop("checked", true);
-            checkbox.parent().append("<span class='reserved'>Reserved</span>");
-            $(this).remove();
-        });
-</script>

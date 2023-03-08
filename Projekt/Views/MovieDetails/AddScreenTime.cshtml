@@ -1,0 +1,62 @@
+﻿@using Projekt.Models.DTO
+@model AddScreenTimeDto
+
+<div class="addScreenTimeContainer">
+    <div>
+        <h1>Add a new screentime</h1>
+    </div>
+    <div>
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success">@ViewBag.Message</div>
+        }
+        @using (Html.BeginForm("AddScreenTime", "MovieDetails", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.MovieId)
+            <div class="form-group">
+                @Html.LabelFor(model => model.ScreenTime.ScreenDateTime, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.ScreenTime.ScreenDateTime, "{0:yyyy-MM-dd hh:mm tt}", new { @class = "form-control datepicker", @placeholder = "YYYY-MM-DD HH:MM" })
+                @Html.ValidationMessageFor(model => model.ScreenTime.ScreenDateTime, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        }
+    </div>
+</div>
+
+<style>
+
+    .addScreenTimeContainer {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+    }
+
+    form {
+        width: 100%;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="submit"] {
+        margin-top: 20px;
+    }
+</style>

@@ -3,82 +3,119 @@
 @model MovieDetailsDto
 @{
     Layout = "_Layout";
-
+    bool isAdmin = User.IsInRole("Admin");
 }
 <body>
-<div class="container">
-
-<div class="right">
-<div class="movie-details-container">
-    <h1>@Model.Movie.Title</h1>
-    <div class="movie-poster">
-        <h7></h7>
-    </div>
-    <div class="movie-description">
-        <p>@Model.Movie.Description</p>
-    </div>
-    <div>
-        <div class="movie-screen-time-container">
-            @foreach (ScreenTime screenTime in Model.ScreenTime)
-            {
-                @Html.ActionLink(@screenTime.ScreenDateTime.ToString(), "SelectTickets", "Tickets", new {screenTimeId = @screenTime.Id, movieId = @Model.Movie.Id}, new { @class = "time-button" })   
-            }
+    <div class="container">
+        <div class="admin-button @if(!isAdmin) {
+        <text>hidden</text>}">
+            @Html.ActionLink("Add Screening", "ScreenTime", "MovieDetails", new {movieId = @Model.Movie.Id})
         </div>
-    </div>
-</div>
 
-</div>
-</div>
+        <div class="right">
+            <div class="movie-details-container">
+                <h1>@Model.Movie.Title</h1>
+                <div class="movie-poster">
+                    <h7></h7>
+                </div>
+                <div class="movie-description">
+                    <p>@Model.Movie.Description</p>
+                </div>
+                <div>
+                    <div class="movie-screen-time-container">
+                        @foreach (ScreenTime screenTime in Model.ScreenTime)
+                        {
+                            @Html.ActionLink(@screenTime.ScreenDateTime.ToString(), "SelectTickets", "Tickets", new {screenTimeId = @screenTime.Id, movieId = @Model.Movie.Id}, new { @class = "time-button" })
+                        
+                            @if (isAdmin)
+                            {
+                            <form method="post" action="@Url.Action("DeleteScreenTime", "MovieDetails", new { screenTimeId = @screenTime.Id })">
+                                <input type="submit" value="Delete" />
+                            </form>
+                            }
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
 </body>
 <style>
- body {
-     background-color: #242333;
-}
-.container {
-  display: flex;
-}
+    body {
+        background-color: #242333;
+    }
 
-.left {
-  flex: 0 0 200px; 
-  background-color: black;
-}
+    .container {
+        display: flex;
+    }
 
-.right {
-  flex: 1;
-  padding: 20px;
-}
+    .left {
+        flex: 0 0 200px;
+        background-color: black;
+    }
 
-.flow {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
+    .right {
+        flex: 1;
+        padding: 20px;
+    }
 
-.flow h2 {
-  margin-left: 10px;
-  color: white;
-}
+    .flow {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
 
-.material-icons {
-  font-size: 30px;
-  color: white;
-  margin-right: 10px;
-}
-.time-button {
-  display: block;
-  width: 80px;
-  height: 40px;
-  margin: 10px 0;
-  text-align: center;
-  background-color: #FFA500;
-  color: black;
-  font-size:14px;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-}
-.movie-description{
-    color: rgb(200,200,200);
-}
-    
+        .flow h2 {
+            margin-left: 10px;
+            color: white;
+        }
+
+    .material-icons {
+        font-size: 30px;
+        color: white;
+        margin-right: 10px;
+    }
+
+    .time-button {
+        display: block;
+        width: 80px;
+        height: 40px;
+        margin: 10px 0;
+        text-align: center;
+        background-color: #FFA500;
+        color: black;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .movie-description {
+        color: rgb(200,200,200);
+    }
+
+    .admin-button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 999;
+    }
+
+        .admin-button.hidden {
+            display: none;
+        }
+
+    .screen-time-button-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .delete-button {
+        margin-left: 10px;
+    }
+
 </style>

@@ -50,5 +50,5 @@ app.MapControllerRoute("MovieTickets", "{controller=Tickets}/{action=SelectTicke
 app.MapControllerRoute("BuyTickets", "{controller=Tickets}/{action=BuyTickets}/{selectedSeats?}/{userEmail?}/{movieName?}/{screenDateTime?}");
 app.MapControllerRoute("RegistrationForm", "{controller=UserAuthentication}/{action=RegisterForm}");
 app.MapControllerRoute("CancelReservation", "{controller=Tickets}/{action=CancelReservation}/{UserEmail?}/{ReservationId}");
-
+app.MapControllerRoute("AddScreenTime", "{controller=MovieDetails}/{action=ScreenTime}");
 app.Run();
