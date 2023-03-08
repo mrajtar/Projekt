@@ -17,3 +17,5 @@ Project description
 Any user, logged in or not may choose a particular movie, then the date and time of a screening (of those available), then he can book as many seats as he wants, after
 entrying his email hes redirected to a page with all the information about his ticket, the seats, time and date, movie title, and ticket identificator.
 He may also cancel his reservation with his email and said ticket identificator.
+
+Admin can add and delete screening times of movies.
